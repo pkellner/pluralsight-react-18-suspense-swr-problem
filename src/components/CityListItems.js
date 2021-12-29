@@ -60,12 +60,14 @@ function ProcessDataAndRender() {
           if (a.pm25 < b.pm25) return 1;
           return 0;
         })
-        .map(function (rec) {
+        .map(function (rec, i) {
           return (
             <ul key={rec.id} className="list-group">
               <li
                 className={
-                  rec.id === selectedCityId
+                  // highlight the first element by default
+                  // change after user interaction
+                  (!selectedCityId && i === 0) || rec.id === selectedCityId
                     ? "list-group-item list-group-item-city-list-height mt-1 mb-1 border-dark"
                     : "list-group-item list-group-item-city-list-height mt-1 mb-1 bg-light"
                 }
