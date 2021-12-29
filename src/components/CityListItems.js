@@ -1,5 +1,11 @@
 import { CityContext } from "../contexts/CityContext";
-import { Suspense, useContext, useState, useTransition } from "react";
+import {
+  Suspense,
+  useContext,
+  useState,
+  useTransition,
+  useEffect,
+} from "react";
 import useSwr from "swr";
 import { CityLinkButton, CityLinkButtonFallback } from "./CityLinkButton";
 
@@ -36,14 +42,15 @@ function ProcessDataAndRender() {
 
   const { data, error } = useSwr(`/api/data/cities?count=${cityMax}`, {
     suspense: true,
-    onSuccess(cityData) {
-      if (cityData && cityData?.length > 0) {
-        setSelectedCityId(cityData[0].id);
-        setSelectedCityName(cityData[0].city);
-        setSelectedStateName(cityData[0].state);
-      }
-    },
   });
+
+  useEffect(() => {
+    if (data && data?.length > 0) {
+      setSelectedCityId(data[0].id);
+      setSelectedCityName(data[0].city);
+      setSelectedStateName(data[0].state);
+    }
+  }, [data, setSelectedCityId, setSelectedCityName, setSelectedStateName]);
 
   return (
     <div>
@@ -68,7 +75,6 @@ function ProcessDataAndRender() {
                   onClick={(e) => {
                     e.preventDefault();
                     setTempId(rec.id);
-
                     startTransition(() => {
                       setSelectedCityId(rec.id);
                       setSelectedCityName(rec.city);
