@@ -46,9 +46,12 @@ function ProcessDataAndRender() {
 
   useEffect(() => {
     if (data && data?.length > 0) {
-      setSelectedCityId(data[0].id);
-      setSelectedCityName(data[0].city);
-      setSelectedStateName(data[0].state);
+      setTempId(data[0].id);
+      startTransition(() => {
+        setSelectedCityId(data[0].id);
+        setSelectedCityName(data[0].city);
+        setSelectedStateName(data[0].state);
+      });
     }
   }, [data, setSelectedCityId, setSelectedCityName, setSelectedStateName]);
 
