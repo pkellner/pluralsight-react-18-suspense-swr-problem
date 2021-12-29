@@ -18,20 +18,16 @@ export function CityListAndDetailFallback() {
 function CityListAndDetail() {
   return (
     <>
-      <Suspense
-        fallback={
-          <div>
-            <CityListAndDetailFallback />
-          </div>
-        }
-      >
-        <div className="col-sm-12 col-lg-3 col-md-6">
+      <div className="col-sm-12 col-lg-3 col-md-6">
+        <Suspense fallback={<CityListAndDetailFallback />}>
           <CityListItems />
-        </div>
-        <div className="col-sm-12 col-lg-4 col-md-6">
+        </Suspense>
+      </div>
+      <div className="col-sm-12 col-lg-4 col-md-6">
+        <Suspense fallback={<CityDetailFallback />}>
           <CityDetail />
-        </div>
-      </Suspense>
+        </Suspense>
+      </div>
     </>
   );
 }
